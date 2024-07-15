@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <script src="/js/popper.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+  <title>Просмотр логов системы</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+      <a class="btn btn-sm btn-outline-primary" href="/">На главную</a>
+    </div>
+  </div>Лог работы системы:
+  <div class="col-auto">
+    <table class="table table-hover table-sm m-0">
+      <thead>
+      <th>Timeshtamp</th><th>Message</th>
+      </thead>
+      <tbody id="log-view">
+      </tbody>
+    </table>
+    Обновление через: <span id="refreshCounter">30</span> сек.
+  </div>
+</div>
+<script>
+  function logUpdate() {
+    fetch('/api/log')
+            .then(response => response.json())
+            .then(data => {
+              let logView = document.getElementById('log-view');
+              data.forEach(log => {
+                let logTr = document.createElement('tr');
+                let logTime = document.createElement('td');
+                let logMessage = document.createElement('td');
+                logTime.textContent = log.timestamp;
+                logMessage.textContent = log.message;
+                logTr.appendChild(logTime);
+                logTr.appendChild(logMessage);
+                logView.appendChild(logTr);
+              });
+            })
+            .catch(error => console.error('Error:', error));
+
+  }
+
+  let countDown = 30;
+  function countdown() {
+    setInterval(function () {
+      if (countDown === 0) {
+        location.reload();
+      } else {
+        countDown--;
+        document.getElementById('refreshCounter').innerHTML = countDown;
+      }
+    }, 1000);
+  }
+  countdown();
+
+
+
+  document.addEventListener("DOMContentLoaded",logUpdate);
+
+
+
+</script>
+</body>
+</html>

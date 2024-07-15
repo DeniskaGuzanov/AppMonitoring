@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/jquery-3.7.1.min.js"></script>
+  <title>Отчеты </title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <h4>Принудительный пересчет сводных отчетов</h4>
+    <form class="form-range" action="/admin/fullupdatesummary" method="post">
+      <label for="date1">Начальная дата:</label>
+      <input type="date" id="date1" name="date1">
+      <label for="date2">Конечная дата:</label>
+      <input type="date" id="date2" name="date2">
+      <input type="submit" value="Запустить пересчет">
+    </form>
+    <div class="result m-2" th:text="${report}"></div>
+    <br>
+    <div><a class="btn btn-outline-secondary btn-sm" href="/admin">Вернуться в администрирование</a></div>
+  </div>
+</div>
+</body>
+</html>

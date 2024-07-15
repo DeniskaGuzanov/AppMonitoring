@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/jquery-3.7.1.min.js"></script>
+
+  <title>Часовые расходы ВОС5000 (архив)</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="col-12">
+        <h4>История часовых расходов по ВОС5000</h4>
+        <nav class="btn-group-sm">
+          <a class="btn btn-outline-primary btn-sm" href="/report">Другие отчеты</a>
+          <a type="button" class="btn btn-outline-primary btn-sm mr-1" href="javascript:window.print()">Распечатать</a>
+          <a class="btn btn-outline-primary btn-sm" href="/">На главную</a>
+        </nav>
+      </div>
+      <div id="report-form" class="col-12">
+        <form class="col-4 inline">
+          <label class="form-label "><span th:text="${message}"></span></label>
+          <div class="btn-group">
+            <span id="dateInputDown" class="btn btn-outline-secondary">←</span>
+            <input class="form-control inline col-1" id="dateInput" th:value="${selectedDate}" type="date"
+                   required name="date">
+            <span id="dateInputUp" class="btn btn-outline-secondary">→</span>
+          </div>
+          <script>
+            document.getElementById('dateInput').addEventListener('change', function () {
+              var date = this.value;
+              var url = window.location.protocol + '//' + window.location.host + window.location.pathname + '?date=' + date;
+              window.location.href = url;
+            });
+            document.getElementById('dateInputDown').addEventListener('click', function () {
+              var formdate = document.getElementById('dateInput').value;
+              if (formdate == '') return;
+              var date = new Date(new Date(formdate).getTime() - 86400000);
+              var year = date.getFullYear();
+              var month = (date.getMonth() + 1).toString().padStart(2, '0');
+              var day = date.getDate().toString().padStart(2, '0');
+              var urldate = year + "-" + month + "-" + day;
+              var url = window.location.protocol + '//' + window.location.host + window.location.pathname + '?date=' + urldate;
+              window.location.href = url;
+            });
+            document.getElementById('dateInputUp').addEventListener('click', function () {
+              var formdate = document.getElementById('dateInput').value;
+              if (formdate == '') return;
+              var date = new Date(new Date(formdate).getTime() + 86400000);
+              var year = date.getFullYear();
+              var month = (date.getMonth() + 1).toString().padStart(2, '0');
+              var day = date.getDate().toString().padStart(2, '0');
+              var urldate = year + "-" + month + "-" + day;
+              var url = window.location.protocol + '//' + window.location.host + window.location.pathname + '?date=' + urldate;
+              window.location.href = url;
+            });
+          </script>
+        </form>
+      </div>
+      <div th:if="${dataExists}==true">
+        <div class="table-responsive-sm">
+          <table id="dataTable" class="table table-compact table-bordered table-hover text-center table-sm">
+            <thead>
+            <tr class="p-0 m-0">
+              <th>Время</th>
+              <th>Добыча воды</br>со скважин</th>
+              <th>Объем</br>обр.город</th>
+              <th>Объем</br>обр.ВОС15000</th>
+              <th>Итого приход воды</th>
+              <th>Объем</br>подачи в город</th>
+              <th>Запас</br>в РЧВ</th>
+              <th>Рост запаса</br> в РЧВ расчетный</th>
+              <th>Запас</br> в РЧВ расчетный</th>
+              <th>Давление</br>подачи в город</th>
+              <th>Давление</br>обр.город</th>
+              <th>Давление</br>обр.ВОС15000</th>
+              <th class="no-print" th:if="${username=='Admin'}">Инструменты</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="p-0 m-0" th:each="data:${dataVos5}">
+              <td class="p-0 m-0" th:text="${data.getDateT()}">-</td>
+              <td class="p-0 m-0" th:text="${data.getVolExtract()}">-</td>
+              <td class="p-0 m-0" th:text="${data.getVolBackCity()}">-</td>
+              <td class="p-0 m-0" th:text="${data.getVolBackVos15()}">-</td>
+              <td class="p-0 m-0" th:text="${data.getVolAll()}">-</td>
+              <td class="p-0 m-0" th:text="${data.getVolCity()}">-</td>
+              <td class="p-0 m-0" th:text="${data.getCleanWaterSupply()}">-</td>
+              <td class="p-0 m-0" th:text="${data.getDeltaCleanWaterSupplyCalculated()}"></td>
+              <td th:text="${data.getCleanWaterSupply()+data.getDeltaCleanWaterSupplyCalculated()}"></td>
+              <td class="p-0 m-0" th:text="${data.getPressureCity()}"></td>
+              <td class="p-0 m-0" th:text="${data.getPressureBackCity()}"></td>
+              <td class="p-0 m-0" th:text="${data.getPressureBackVos15()}"></td>
+              <td class="no-print" th:if="${username=='Admin'}">
+                <a th:href="@{/update/vos5/{id}(id=${data.getId()})}"
+                   class="btn btn-sm btn-outline-primary"
+                   title="Изменить">&#9998;</a>
+                <a th:href="@{/delete/vos5/{id}(id=${data.getId()})}"
+                   class="btn btn-sm btn-outline-primary"
+                   title="Удалить">&#10060;</a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row">
+          <div class="col-lg-8" id="graphic-container"></div>
+          <div class="col-lg-4" id="graphic-container-pressure"></div>
+        </div>
+        <script src="/js/anychart-base.min.js"></script>
+        <script src="/js/historyPagesVos5.js"></script>
+
+      </div>
+    </div>
+  </div>
+</div>
+<script src="/js/AvrgValOfTableVos5.js"></script>
+</body>
+</html>

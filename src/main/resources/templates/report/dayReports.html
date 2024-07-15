@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/jquery-3.7.1.min.js"></script>
+  <script src="/js/anychart-base.min.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+  <title>Сводный отчет</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h4 class="no-print">История сводных отчетов</h4>
+      <nav class="btn-group-sm">
+        <a type="button" class="btn btn-outline-primary btn-sm mr-1" href="javascript:window.print()">Распечатать</a>
+        <a class="btn btn-outline-primary btn-sm" href="/report">Другие отчеты</a>
+        <a class="btn btn-outline-primary btn-sm" href="/">На главную</a>
+
+      </nav>
+    </div>
+    <div id="report-form " class="col-md-12">
+      <form class="col-4 inline no-print">
+        <label class="form-label "><span th:text="${message}"></span></label>
+        <div class="btn-group">
+          <span id="dateInputDown" class="btn btn-outline-secondary">←</span>
+          <input class="form-control inline col-1" id="dateInput" th:value="${currentDate}" type="date"
+                 required name="date">
+          <span id="dateInputUp" class="btn btn-outline-secondary">→</span></div>
+        <script>
+          document.getElementById('dateInput').addEventListener('change', function () {
+            var date = this.value;
+            var url = window.location.protocol + '//' + window.location.host + window.location.pathname + '?date=' + date;
+            window.location.href = url;
+          });
+          document.getElementById('dateInputDown').addEventListener('click', function () {
+            var formdate = document.getElementById('dateInput').value;
+            if (formdate == '') return;
+            var date = new Date(new Date(formdate).getTime() - 86400000);
+            var year = date.getFullYear();
+            var month = (date.getMonth() + 1).toString().padStart(2, '0');
+            var day = date.getDate().toString().padStart(2, '0');
+            var urldate = year + "-" + month + "-" + day;
+            var url = window.location.protocol + '//' + window.location.host + window.location.pathname + '?date=' + urldate;
+            window.location.href = url;
+          });
+          document.getElementById('dateInputUp').addEventListener('click', function () {
+            var formdate = document.getElementById('dateInput').value;
+            if (formdate == '') return;
+            var date = new Date(new Date(formdate).getTime() + 86400000);
+            var year = date.getFullYear();
+            var month = (date.getMonth() + 1).toString().padStart(2, '0');
+            var day = date.getDate().toString().padStart(2, '0');
+            var urldate = year + "-" + month + "-" + day;
+            var url = window.location.protocol + '//' + window.location.host + window.location.pathname + '?date=' + urldate;
+            window.location.href = url;
+          });
+        </script>
+      </form>
+    </div>
+    <div th:if="${isReportExist}==true" id="report" class="col-md-12">
+      <h5>Сводный дневной отчет на <span th:text="${currentDate}"></span></h5>
+      <div class="table-responsive-sm">
+        <table id="dataTable" class="table table-compact table-bordered table-hover text-center table-sm">
+          <thead>
+          <tr>
+            <th>Время</th>
+            <th>Добыча воды со скважин</th>
+            <th>Потребление воды городом</th>
+            <th>Среднее потребление<br>по предыдущим 10 дням</th>
+            <th>Запас в РЧВ</th>
+            <th>Рост запаса в РЧВ</th>
+
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="data:${dataList}">
+            <td th:text="${data.getDateT()}"></td>
+            <td th:text="${data.getVolExtract()}"></td>
+            <td th:text="${data.getVolCiti()}"></td>
+            <td th:text="${data.getAverageVolCiti()}"></td>
+            <td th:text="${data.getCleanWaterSupply()}"></td>
+            <td th:text="${data.getDeltaCleanWaterSupply()}"
+                th:class="${data.getDeltaCleanWaterSupply()} == 0 ? '' : (${data.getDeltaCleanWaterSupply()} > 0 ? '' : 'bg-danger text-white')"></td>
+          </tr>
+          </tbody>
+        </table>
+        <p> Страница будет обновлена через: <span id="refreshCounter">300</span> сек.</p>
+      </div>
+      <div id="graphic-container"></div>
+
+      <script src="/js/summaryReports.js"></script>
+    </div>
+  </div>
+</div>
+<script src="/js/AvrgValOfTableSummary.js"></script>
+</body>
+</html>

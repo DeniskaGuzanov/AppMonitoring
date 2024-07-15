@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/jquery-3.7.1.min.js"></script>
+  <script src="/js/anychart-base.min.js"></script>
+  <script src="/js/summaryReports.js"></script>
+
+  <title>Сводный отчет</title>
+</head>
+
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h4>Сводный дневной отчет <span th:text="${currentDate}"></span></h4>
+      <div class="btn-group-sm">
+        <a class="btn btn-outline-primary btn-sm" href="/report/summary/update">Пересчитать дневной отчет</a>
+        <a type="button" class="btn btn-outline-primary btn-sm mr-1" href="javascript:window.print()">Распечатать</a>                <a class="btn btn-outline-primary btn-sm" href="/report">Другие отчеты</a>
+        <a class="btn btn-outline-primary btn-sm" href="/">На главную</a>
+      </div>
+    </div>
+    <div id="report" class="col-md-12">
+      <div class="table-responsive-sm">
+        <table id="dataTable" class="table table-compact table-bordered table-hover text-center table-sm">
+          <thead>
+          <tr>
+            <th>Время</th>
+            <th>Добыча воды со скважин</th>
+            <th>Потребление воды городом</th>
+            <th>Среднее потребление<br>по предыдущим 10 дням</th>
+            <th>Запас в РЧВ</th>
+            <th>Рост запаса в РЧВ</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="data:${dataSummaryList}">
+            <td th:text="${data.getDateT()}"></td>
+            <td th:text="${data.getVolExtract()}"></td>
+            <td th:text="${data.getVolCiti()}"></td>
+            <td th:text="${data.getAverageVolCiti()}"></td>
+            <td th:text="${data.getCleanWaterSupply()}"></td>
+            <td th:text="${data.getDeltaCleanWaterSupply()}"
+                th:class="${data.getDeltaCleanWaterSupply()} == 0 ? '' : (${data.getDeltaCleanWaterSupply()} > 0 ? '' : 'bg-danger text-white')"></td>
+          </tr>
+          </tbody>
+        </table>
+        <p class="no-print"> Страница будет обновлена через: <span id="refreshCounter">1800</span> сек.</p>
+      </div>
+      <div id="graphic-container"></div>
+    </div>
+  </div>
+</div>
+<script src="/js/AvrgValOfTableSummary.js"></script>
+</body>
+
+</html>

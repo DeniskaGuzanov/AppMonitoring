@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <title>Ошибка </title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="alert-info">
+      <h3>Ошибка при выполнении запроса</h3>
+      <p>Тип ошибки: <b><span th:text="${error}"></span></b></p>
+      <p>Код ошибки: <b><span th:text="${status}"></span></b></p>
+      <p>Сообщение: <span th:text="${message}"></span></p>
+      <a  id="button-next" class="btn btn-sm btn-outline-danger" href="/">Вернуться на главную</a></div>
+  </div>
+</div>
+</body>
+</html>

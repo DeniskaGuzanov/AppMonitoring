@@ -1,0 +1,27 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    #  url: jdbc:postgresql://localhost:5432/test_den
+    url: jdbc:postgresql://postgres:5432/postgres
+    username: "postgres"
+    password: 123
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+  web:
+    resources:
+      cache:
+        cachecontrol:
+          max-age: 1d
+
+mailserver:
+  address: 192.168.0.6
+  port: 25
+
+recipient: admin@admin.ru

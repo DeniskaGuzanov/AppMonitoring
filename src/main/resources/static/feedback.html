@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <script src="/js/bootstrap.min.js"></script>
+  <title>Обратная связь</title>
+</head>
+<body>
+<div class="container">
+  <div class="col">
+    <h4>Обратная связь с разработчиком</h4>
+    <p>Опишите обнаруженные ошибки или ваши предложения и пожелания к системе.</p>
+    <form class="form-group col-7" action="/feedback" method="post">
+      <label class="form-label" for="name">Имя:</label>
+      <input class="form-control" type="text" id="name" name="name" placeholder="Ваше имя" required>
+      <label class="form-label" for="email">Электронная почта:</label>
+      <input class="form-control" type="email" id="email" name="email" placeholder="Ваша электронная почта" required>
+      <label class="form-label" for="subject">Тема:</label>
+      <input class="form-control" type="subject" id="subject" name="subject" placeholder="Тема сообщения" required>
+      <label class="form-label" for="message">Сообщение:</label>
+      <textarea class="form-control" id="message" name="message" rows="5" placeholder="Ваше сообщение" required></textarea>
+      <button class="btn btn-outline-secondary" type="submit">Отправить</button>
+      <a class="btn btn-outline-danger" href="/">На главную</a>
+    </form>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/jquery-3.7.1.min.js"></script>
+  <title>Ввод данных часового расхода ВОС15000</title>
+</head>
+
+<body>
+<div class="container">
+  <div class="row">
+    <div class="row g-3 col-10">
+      <form id="myForm" action="/input/vos15" method="POST">
+        <h3>Ввод данных часового расхода ВОС15000</h3>
+        <p><span id="current-date"></span></p>
+        <div class="form-group col-8">
+          <label class="form-label" for="date">Дата</label>
+          <input class="form-control" type="datetime-local" id="date" name="date" placeholder="" required>
+          <label class=" form-label" for="volExtract">Объем часовой добычи станции м3/час</label>
+          <input class="form-control" type="number" step="0.01" id="volExtract" name="volExtract"
+                 placeholder="" value="" required>
+
+          <label class="form-label" for="volLeftCity">Подача в город левая нитка м3/ч</label>
+          <input class="form-control" type="number" step="0.01" id="volLeftCity" name="volLeftCity" placeholder=""
+                 required>
+          <label class="form-label" for="volRightCity">Подача в город правая нитка м3/ч</label>
+          <input class="form-control" type="number" step="0.01" id="volRightCity" name="volRightCity" placeholder=""
+                 required>
+          <label class="form-label" for="volCity">Подача в город м3/ч</label>
+          <input class="form-control" type="number" step="0.01" id="volCity" name="volCity" placeholder=""
+                 required disabled>
+
+          <label class="form-label" for="cleanWaterSupply">Запас воды в РЧВ м3</label>
+          <input class="form-control" type="number" step="0.01" id="cleanWaterSupply" name="cleanWaterSupply"
+                 placeholder="" required>
+
+          <label class="form-label" for="pressureCity">Давление воды в трубопроводе - подача в город
+            ВОС-15000.
+            Кгс/см2</label>
+          <input class="form-control" type="number" step="0.01" id="pressureCity" name="pressureCity"
+                 placeholder="" required>
+        </div>
+        <div class="btn-group mt-2">
+          <button type="submit" class="btn btn-primary">Записать</button>
+          <a class="btn btn-danger" href="/main/vos15">Отмена</a></div>
+        <script>
+          function updateField3() {
+            var field1 = document.getElementById('volLeftCity').value;
+            var field2 = document.getElementById('volRightCity').value;
+
+            if (!field1) {
+              field1 = 0;
+            }
+
+            if (!field2) {
+              field2 = 0;
+            }
+
+            var sum = parseInt(field1) + parseInt(field2);
+            document.getElementById('volCity').value = sum;
+          }
+          window.onload = function() {
+            document.getElementById('volLeftCity').addEventListener('change', updateField3);
+            document.getElementById('volRightCity').addEventListener('change', updateField3);
+          };
+        </script>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var currentDateTime = new Date();
+    var year = currentDateTime.getFullYear();
+    var month = currentDateTime.getMonth() + 1;
+    var day = currentDateTime.getDate();
+    var hours = currentDateTime.getHours();
+    if (month < 10) {month = "0" + month};
+    if (day < 10) {day = "0" + day};
+    if (hours < 10) {hours = "0" + hours};
+    document.getElementById("date").value = year + "-" + month + "-" + day + "T" + hours + ":00";
+
+  });
+</script>
+</body>
+</html>

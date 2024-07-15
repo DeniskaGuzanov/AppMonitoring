@@ -1,0 +1,30 @@
+version: '3'
+services:
+  app:
+    container_name: app-monitor
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    restart: always
+  postgres:
+    container_name: postgres
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - ./database:/var/lib/postgresql/data
+      - ./backup:/backup
+    networks:
+      - default
+
+#networks:
+#  default:
+#    external: true
+#    name: slenergo

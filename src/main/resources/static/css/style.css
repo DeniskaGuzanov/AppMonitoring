@@ -1,0 +1,93 @@
+.dev {
+    border: 1px solid red;
+}
+
+.delta-normal {
+    color: black;
+    background: none;
+}
+
+.delta-minus {
+    background: #ff4000;
+    color: #feffff;
+}
+
+.delta-plus {
+    color: #acffac;
+}
+
+.table-responsive-sm {
+    width: 100%;
+}
+
+#graphic-container {
+    height: 600px;
+    width: 800px;
+    /*background:gainsboro;*/
+    padding: 0;
+    margin: 0;
+}
+
+#graphic-container-pressure {
+    height: 300px;
+    width: 800px;
+    /*background:gainsboro;*/
+    padding: 0;
+    margin: 0;
+}
+
+
+@media print {
+    /* стили для печати */
+    body {
+        font-size: 10px;
+        padding: 0;
+        margin: 0;
+    }
+
+    .btn-group-sm {
+        display: none;
+    }
+
+    .container, .col-14, .row {
+        padding: 0;
+        margin: 0;
+    }
+
+    .table-responsive-sm {
+        width: 100%;
+    }
+
+    .no-print {
+        padding: 0;
+        margin: 0;
+        display: none;
+    }
+
+    #graphic-container {
+        padding: 0;
+        margin: 0;
+
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #graphic-container-pressure {
+        padding: 0;
+        margin: 0;
+
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .graphics {
+        page-break-before: always;
+        padding: 0;
+        margin: 0;
+    }
+
+}

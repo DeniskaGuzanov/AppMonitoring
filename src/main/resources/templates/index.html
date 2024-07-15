@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Мониторинг гидравлических режимов</title>
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <script src="/js/popper.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col-10">
+      <!--            <h4>Мониторинг гидравлических режимов</h4>-->
+      <div th:if="${username!='анонимный пользователь'}">Вы вошли как <b><span th:text="${username}"></span></b></div>
+      <div class="btn-group-sm">
+        <a href="/main/vos5" class="btn btn-outline-primary">Часовые расходы ВОС 5000</a>
+        <a href="/main/vos15" class="btn btn-outline-primary">Часовые расходы ВОС 15000</a>
+        <a href="/report/summary" class="btn btn-outline-primary">Cводный дневной отчет</a>
+        <div class="dropdown d-inline">
+          <a href="#" class="btn btn-sm btn-outline-primary dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" >Прочие отчеты </a>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <li><a class="btn btn-sm btn-outline-primary dropdown-item" href="/report/summary">Сводный отчет за текущий день</a></li>
+            <li><a class="btn btn-sm btn-outline-primary dropdown-item" href="/report/dayreports">Сводный отчет на указанную дату</a></li>
+            <li><a class="btn btn-sm btn-outline-primary dropdown-item" href="/history/vos5">Расходы на указанную дату ВОС5000</a></li>
+            <li><a class="btn btn-sm btn-outline-primary dropdown-item" href="/history/vos15">Расходы на указанную дату ВОС15000</a></li>
+
+          </ul>
+        </div>
+        <a href="/feedback.html" class="btn btn-outline-primary">Обратная связь</a>
+        <a th:if="${username=='Admin'}" class="btn btn-outline-primary" href="/admin" >Администрирование</a>
+        <a th:if="${username=='анонимный пользователь'}" href="/login"  class="btn btn-outline-primary" >Вход</a>
+        <a th:if="${username!='анонимный пользователь'}" href="/logout"  class="btn btn-outline-danger" >Выход</a>
+      </div>
+      <div id="index-about" class="mt-5">
+        <p><a href="/docs/User_manual.pdf">Руководство пользователя</a></p>
+        <p>Изменения в программе:</p>
+        <ul>
+          <li>2024-05-27 - Добавлено отображение итоговых средних и суммарных значений расходов</li>
+          <li>2024-04-24 - Добавлены кнопки перехода на предыдущую и следующую дату в истории сводных отчетов и расходов по станциям</li>
+          <li>2024-04-23 - Добавлено поле среднего почасового потребления города в сводном отчете.</li>
+          <li>2024-04-22 - Добавлен раздел Пересчет сводных итогов за указанный временной интервал (для администратора)</li>
+          <li>2024-04-19 - Добавлен раздел "Средства администрирования" (для администратора)</li>
+          <li>2024-04-18 - Исправлен расчет потребления городом в сводных отчетах</li>
+          <li>2024-03-21 - Добавлены кнопки редактирования и удаления данных в истории (для администратора).</li>
+          <li>2024-03-20 - Добавлена форма обратной связи.</li>
+          <li>2024-03-15 - Добавлена кнопка "Печать" и стили для вывода на печать.</li>
+          <li>2024-03-14 - Добавлены кнопки удаления записей. Исправлена форма редактирования записи.</li>
+          <li>2024-03-01 - Первый релиз приложения.
+        </ul></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

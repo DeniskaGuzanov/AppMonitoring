@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!--  <script src="/js/bootstrap.min.js"></script>-->
+  <!--  <script src="/js/jquery-3.7.1.min.js"></script>-->
+  <!--  <link rel="stylesheet" href="/css/style.css">-->
+  <title>Вход в систему</title>
+</head>
+
+<body>
+<div class="container">
+  <div class="row">
+    <h4>Авторизация</h4>
+    <div th:if="${param.error}">
+      Invalid username and password.</div>
+    <div th:if="${param.logout}">
+      You have been logged out.</div>
+    <form class="col-4" th:action="@{/login}" method="post">
+      <label class="form-label" for="username">Логин</label>:
+      <input class="form-control" type="text" id="username" name="username" autofocus="autofocus" required> <br />
+      <label class="form-label" for="password">Пароль</label>:
+      <input class="form-control" type="password" id="password" name="password" /> <br />
+      <input class="btn btn-outline-primary" type="submit" value="Вход" /><a class="btn btn-outline-secondary" href="/" >На главную</a>
+    </form>
+  </div>
+</div>
+</body>
+
+</html>

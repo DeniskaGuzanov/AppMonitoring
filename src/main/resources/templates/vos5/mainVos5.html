@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/jquery-3.7.1.min.js"></script>
+  <script src="/js/anychart-base.min.js"></script>
+  <script src="/js/mainPagesVos5.js"></script>
+
+  <title>Часовые расходы ВОС5000</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h4>Часовые расходы ВОС5000</h4>
+      <p><span id="current-date"></span><span class="no-print"> | Вы вошли как <b><span
+              th:text="${username}"></span></b>
+                <a th:if="${username=='анонимный пользователь'}" class="btn btn-sm btn-warning"
+                   href="/login">Авторизоваться</a></span></p>
+      <div class="btn-group-sm">
+        <a th:if="${username!='анонимный пользователь'}" type="button"
+           class="btn btn-outline-primary btn-sm mr-1" href="/input/vos5">Ввод данных</a>
+        <a type="button" class="btn btn-outline-primary btn-sm mr-1" href="/report/summary">Сводный отчет</a>
+        <a type="button" class="btn btn-outline-primary btn-sm mr-1" href="javascript:window.print()">Распечатать</a>
+        <a type="button" class="btn btn-outline-primary btn-sm mr-1" href="/">На главную</a>
+        <a th:if="${username!='анонимный пользователь'}" href="/logout" class="btn btn-outline-danger">Выход</a>
+      </div>
+      <div class="table-responsive-sm">
+        <table id="dataTable" class="table table-compact table-bordered table-hover text-center table-sm">
+          <thead>
+          <tr>
+            <th>Время</th>
+            <th>Добыча воды<br>со скважин</th>
+            <th>Объем<br>обр.город</th>
+            <th>Объем<br>обр.ВОС15000</th>
+            <th>Итого приход воды</th>
+            <th>Объем<br>подачи в город</th>
+            <th>Запас<br>в РЧВ</th>
+            <th>Рост запаса<br> в РЧВ расчетный</th>
+            <th>Запас<br> в РЧВ расчетный</th>
+            <th>Давление<br>подачи в город</th>
+            <th>Давление<br>обр.город</th>
+            <th>Давление<br>обр.ВОС15000</th>
+            <th class="no-print" th:if="${username!='анонимный пользователь'}">Инструменты</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="data:${dataVos5}">
+            <td th:text="${data.getDateT()}">-</td>
+            <td th:text="${data.getVolExtract()}">-</td>
+            <td th:text="${data.getVolBackCity()}">-</td>
+            <td th:text="${data.getVolBackVos15()}">-</td>
+            <td th:text="${data.getVolAll()}">-</td>
+            <td th:text="${data.getVolCity()}">-</td>
+            <td th:text="${data.getCleanWaterSupply()}">-</td>
+            <td th:text="${data.getDeltaCleanWaterSupplyCalculated()}"></td>
+            <td th:text="${data.getCleanWaterSupplyCalc()}"></td>
+            <td th:text="${data.getPressureCity()}"></td>
+            <td th:text="${data.getPressureBackCity()}"></td>
+            <td th:text="${data.getPressureBackVos15()}"></td>
+            <td class="no-print" th:if="${username!='анонимный пользователь'}">
+              <a th:href="@{/update/vos5/{id}(id=${data.getId()})}" class="btn btn-sm btn-outline-primary"
+                 title="Изменить">&#9998;</a>
+              <a th:href="@{/delete/vos5/{id}(id=${data.getId()})}" class="btn btn-sm btn-outline-primary"
+                 title="Удалить">&#10060;</a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <p class="no-print"> Страница будет обновлена через: <span id="refreshCounter">300</span> сек.</p>
+      </div>
+      <div class="graphic">
+        <div id="graphic-container"></div>
+        <div id="graphic-container-pressure"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="/js/AvrgValOfTableVos5.js"></script>
+</body>
+</html>
