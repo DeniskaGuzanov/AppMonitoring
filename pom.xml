@@ -8,7 +8,7 @@
         <version>3.2.2</version>
         <relativePath/>
     </parent>
-    <groupId>ru.slenergo</groupId>
+    <groupId>com.example</groupId>
     <artifactId>AppMonitoring</artifactId>
     <version>1.0.0-Release</version>
     <name>AppMonitoring</name>
